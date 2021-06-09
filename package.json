@@ -1,0 +1,22 @@
+{
+  "name": "trace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "build-tsc": "tsc"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.1.13",
+    "ts-loader": "^9.2.3",
+    "typescript": "^3.1.6",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/reflect-metadata": "^0.1.0"
+  }
+}

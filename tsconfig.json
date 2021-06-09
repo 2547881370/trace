@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "declaration": false,
+    "outDir": "./dist",
+    "experimentalDecorators" : true,
+    "lib": ["es2015", "dom"],
+    "allowJs": true,
+    "moduleResolution": "node"
+  },
+  "include": ["./src"],
+  "exclude": ["./node_modules"]
+}
