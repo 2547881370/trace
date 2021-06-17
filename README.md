@@ -11,31 +11,69 @@
     + [@babel/core
 ](https://www.babeljs.cn/docs/babel-core#options)
 
+
+## 1. 新建自定义loader
 ```js
 // plugins/trace-loader.js
 
-const fs = require('fs')
-const { baseParse } = require('@vue/compiler-core')
-const { transform } = require('@babel/core')
-const t = require('babel-types')
-
 module.exports = function(source, map) {
-  const { resourcePath } = this
-  // 2. 读取文件内容
-  const file = fs.readFileSync(resourcePath).toString()
-  // <script>[\d\w\s\D\W\S]*</script>
+  let functionReg = /^\s*\w+\(.*\)\s?\{/
+  let methodsReg = /methods.*:.*{/g
+  let startScriptReg = /<script.*>/g
+  let endScriptReg = /<\/script.*>/g
 
-  // TODO : 在<script> 中引入装饰器包
-  // TODO : 在methods中所有方法的头部增加装饰器
-  // TODO : 将修改好的source重新组装返回
+  let scriptFlag = false
+  let methodsFlag = false
 
-  fs.writeFileSync('write1.txt', source)
-  console.log(file)
-  return source
+  let oneScriptFlag = true
+
+  let codes = source.split('\n')
+
+  let content = []
+
+  for (let index = 0; index < codes.length; index++) {
+    let codeItem = codes[index]
+
+    content.push(codeItem)
+
+    // 进入script中
+    if (!scriptFlag) {
+      scriptFlag = startScriptReg.test(codeItem)
+
+      if (scriptFlag && oneScriptFlag) {
+        content.push('在<script> 中引入装饰器包')
+        oneScriptFlag = false
+      }
+    }
+
+    // 离开script
+    if (endScriptReg.test(codeItem)) {
+      scriptFlag = false
+    }
+
+    // 当如果在script中时,正则匹配是否进入了methods内部
+    if (scriptFlag) {
+      if (!methodsFlag) {
+        methodsFlag = methodsReg.test(codeItem)
+      }
+    }
+
+    if (scriptFlag && methodsFlag) {
+      // 在函数体内部
+      // console.log(codeItem)
+      if (functionReg.test(codeItem)) {
+        // 在methods中所有方法的头部增加装饰器
+        let _codeItemCopy = content.pop()
+        content.push('在methods中所有方法的头部增加装饰器')
+        content.push(_codeItemCopy)
+      }
+    }
+  }
+
+  return content.join('\n')
 }
-
 ```
-
+##  2. 增加webpack配置
 ```js
 // vue.config.js
 
@@ -51,4 +89,29 @@ configureWebpack : {
     }
   .../
 }
+```
+
+
+## vue-loader原理
+```js
+  // 将单文件组件进行解析
+  /**
+   * {
+   *  template: {
+   *    type : 'template',
+   *    content: ''
+   *  },
+   *  script: {
+   *     type: 'script',
+   *     content: ''
+   *  },
+   *  styles:[
+   *    {
+   *       type: 'style',
+   *       content: ''
+   *    }
+   *  ]
+   * }
+   * */
+```
 ```
