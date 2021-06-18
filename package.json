@@ -1,22 +1,26 @@
 {
-  "name": "trace",
+  "name": "vue-function-trace",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "追踪函数调用链",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "webpack",
-    "build-tsc": "tsc"
+    "build": "tsc"
   },
   "devDependencies": {
-    "reflect-metadata": "^0.1.13",
-    "ts-loader": "^9.2.3",
-    "typescript": "^3.1.6",
-    "webpack": "^5.38.1",
-    "webpack-cli": "^4.7.2"
+    "typescript": "^3.1.6"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/reflect-metadata": "^0.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2547881370/trace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/2547881370/trace/issues"
+  },
+  "homepage": "https://github.com/2547881370/trace#readme"
 }
