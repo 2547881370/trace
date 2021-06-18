@@ -3,7 +3,7 @@
 npm i vue-function-trace --save
 ```
 
-# 使用
+# class中使用
 ```js
 import { logPerformance , FunctionTraceStash } from "vue-function-trace";
 
@@ -65,6 +65,8 @@ FunctionTraceStash.getInstance().replay()
 FunctionTraceStash.getInstance().clear()
 
 ```
+
+## vue单文件组件中使用
 ```js
 <template>
   ../
